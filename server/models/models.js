@@ -58,7 +58,7 @@ Product.belongsTo(Subtype)
 Product.hasMany(BasketProduct)
 BasketProduct.belongsTo(Product)
 
-Product.hasMany(ProductInfo)
+Product.hasMany(ProductInfo, {as: 'info'});
 ProductInfo.belongsTo(Product)
 
 Type.belongsToMany(Subtype, {through: TypeSubtype})
