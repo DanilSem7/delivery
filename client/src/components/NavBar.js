@@ -1,11 +1,20 @@
 import React, {useContext} from 'react';
 import {Context} from "../index";
 import {Button, Container, Nav, Navbar, NavLink} from "react-bootstrap";
-import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {ADMIN_ROUTE, LOGIN_ROUTE, PRODUCT_ROUTE, SHOP_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
+import {useNavigate} from "react-router-dom";
 
 const NavBar = observer(() => {
     const {user} = useContext(Context)
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        user.setUser({})
+        user.setIsAuth(false)
+        localStorage.removeItem('token')
+    }
+
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -14,13 +23,13 @@ const NavBar = observer(() => {
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <Button
                             variant={"outline-light"}
-                            //onClick={() => history.push(ADMIN_ROUTE)}
+                            onClick={() => navigate(ADMIN_ROUTE)}
                         >
                             Админ
                         </Button>
                         <Button
                             variant={"outline-light"}
-                            //onClick={() => logOut()}
+                            onClick={() => logOut()}
                             className="ml-2"
                         >
                             Выйти
@@ -28,7 +37,8 @@ const NavBar = observer(() => {
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={"outline-light"} onClick={() =>user.setIsAuth(true)}//onClick={() => history.push(LOGIN_ROUTE)}
+                        <Button variant={"outline-light"} //onClick={() =>user.setIsAuth(true)}
+                            onClick={() => navigate(LOGIN_ROUTE)}
                         >Авторизация</Button>
                     </Nav>
                 }
